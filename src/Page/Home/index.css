@@ -1,0 +1,183 @@
+.ant-input {
+  font-size: 20px !important;
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-picker .ant-picker-input >input:placeholder-shown {
+  font-size: 20px;
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-input-affix-wrapper .ant-input-prefix {
+  font-size: 20px;
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-picker-dropdown .ant-picker-header-view {
+  font-size: 20px;
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-picker .ant-picker-input >input {
+  font-size: 20px;
+}
+
+:where(.css-dev-only-do-not-override-12jzuas).ant-picker-dropdown .ant-picker-panel-container .ant-picker-panel .ant-picker-content, :where(.css-dev-only-do-not-override-12jzuas).ant-picker-dropdown .ant-picker-panel-container .ant-picker-panel table {
+  font-size: 20px;
+}
+
+.Home {
+  text-align: center;
+  width: 100%;
+  height: 100vh; 
+  /* height: 100%;  */
+  background: rgb(34,193,195);
+  background: linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);
+}
+
+.home-wrapper {
+  width: 1030px;
+  margin: auto;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.hader-input {
+  width: 200px;
+  margin-right: 50px;
+  height: 48px;
+}
+
+.header-time {
+  margin-right: 50px;
+}
+
+.header-time-range {
+  margin-right: 25px;
+  height: 48px;
+  font-size: 20px !important;
+}
+
+.search-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.main-wrapper {
+  margin-top: 30px;
+}
+
+.title {
+  font-size: 120px;
+  color: #fff;
+  font-family: 'Dancing Script', 'Warnes', cursive;
+}
+
+.main-input {
+  width: 890px;
+  margin-right: 20px;
+  margin-left: -47px;
+}
+
+.confiim-button {
+  height: 56px;
+  width: 80px;
+  font-size: 20px;
+}
+
+.tag-list {
+  position: fixed;
+  top: 290px;
+  left: 45px;
+}
+
+.tag-item-bbq {
+  width: 90px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-top: 47px;
+  margin-left: 414px;
+  display: block;
+  font-size: 20px;
+}
+
+.tag-item-sun {
+  width: 90px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  margin-top: 147px;  
+  margin-left: 638px;
+  display: block;
+  font-size: 20px;
+}
+
+.tag-item-fish {
+  width: 90px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-top: -190px;
+  margin-left: 839px;
+  display: block;
+  font-size: 20px;
+}
+
+.tag-item-climb {
+  width: 90px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-top: 123px;
+  margin-left: 1100px;
+  display: block;
+  font-size: 20px;
+}
+
+.tag-item-swim {
+  width: 90px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-top: -272px;
+  margin-left: 1200px;
+  display: block;
+  font-size: 20px;
+}
+
+.tag-item-capping {
+  width: 90px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-top: 47px;
+  margin-left: 390px;
+  font-size: 20px;
+}
+.tag-item-ski {
+  width: 90px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-top: 67px;
+  margin-left: 200px;
+  font-size: 20px;
+}
+.tag-item-water {
+  width: 90px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-top: 67px;
+  margin-left: 200px;
+  font-size: 20px;
+}
+.tag-item-walk {
+  width: 90px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-top: 67px;
+  margin-left: 80px;
+  font-size: 20px;
+}
