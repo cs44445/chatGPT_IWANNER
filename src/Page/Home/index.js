@@ -55,14 +55,16 @@ function Home() {
     "messages": [
         {
             "role": "user",
-            "content": `你是一名专业的旅行规划师。你在帮助我规划我的旅行。
-            参与的人数是${peopleNumber}个成人。
-            旅行从${startDate}开始，${endDate}结束。
-            我想从${placeValue}出发，进行国内旅行，
-            总预算约为人民币${budget}元。
-            在旅行期间，我希望${wants}。
-            \n\n请为我推荐一个目的地，并提供一份详尽的旅行计划，包括每天的行程地点和时间安排，和具体的酒店、航空公司和餐厅推荐，费用应在预算范围内。
-            计划应包括早餐、午餐和晚餐的地点。如果可能的话，请在同一家酒店住宿。\n\n最后，请制作一张表格，需符合以下要求：\n总共4列\n第一列是日期\n第二列是时间段\n第三列是活动\n第四列是预算`
+          "content": `你是一名专业的旅行规划师，你在帮助我规划我的旅行。
+            旅行的人数是${peopleNumber}个成人；
+            旅行从${startDate}开始，${endDate}结束；
+            我想从${placeValue}出发，进行国内旅行；
+            总预算约为人民币${budget}元，但你可以选择留出一定的自由预算；
+            行程必须包括这些活动：${wants}，如果存在无法规划在行程内的活动，请列出来并告知我原因；
+            \n\n你必须为我推荐一个目的地，并提供一份详尽的旅行计划，包括每天的行程地点和时间安排，和具体的酒店、航空公司和餐厅推荐，费用应计入预算。
+            计划应包括早餐、午餐和晚餐的地点。如果可能的话，请在同一家酒店住宿。
+            \n\n最后，请告诉我行程花费掉的总预算，包括机票、酒店和在当地的活动花费，并根据计划用markdown格式制作一张时间表附在最后，
+            时间表需符合以下要求：\n\n总共4列\n第一列是日期\n第二列是时间段\n第三列是活动\n第四列是预算`
         }
     ]
 }
@@ -97,56 +99,83 @@ function Home() {
     return current && current < dayjs().endOf('day');
   };
 
+  /**
+   * Append text to the current value of the input box
+   *
+   * @param newText Text to be appended to the current input box
+   */
+  function appendToInput(newText) {
+    let inputDom = document.getElementById('inputBox');
+    let lastValue = inputDom.value;
+    inputDom.value = lastValue + newText;
+    let event = new Event('input', { bubbles: true });
+    event.simulated = true;
+    let tracker = inputDom._valueTracker;
+    if (tracker) {
+      tracker.setValue(lastValue);
+    }
+    inputDom.dispatchEvent(event);
+  }
+
   let list = [];
   const selectTag1 = () => {
+    appendToInput('烧烤、');
     list.push('烧烤')
     list = unique(list);
     console.log(list)
   };
 
   const selectTag2 = () => {
+    appendToInput('看日出、');
     list.push('看日出')
     list = unique(list);
     console.log(list)
   };
 
   const selectTag3 = () => {
+    appendToInput('吃海鲜、');
     list.push('吃海鲜')
     list = unique(list);
     console.log(list)
   };
 
   const selectTag4 = () => {
+    appendToInput('登山、');
     list.push('登山')
     list = unique(list);
     console.log(list)
   };
 
   const selectTag5 = () => {
+    appendToInput('游泳、');
     list.push('游泳')
     list = unique(list);
     console.log(list)
   };
 
   const selectTag6 = () => {
+    appendToInput('露营、');
     list.push('露营')
     list = unique(list);
     console.log(list)
   };
 
   const selectTag7 = () => {
+    appendToInput('滑雪、');
     list.push('滑雪')
     list = unique(list);
     console.log(list)
   };
 
   const selectTag8= () => {
+    appendToInput('潜水、');
     list.push('潜水')
     list = unique(list);
     console.log(list)
   };
 
   const selectTag9 = () => {
+    appendToInput('徒步、');
     list.push('徒步')
     list = unique(list);
     console.log(list)
@@ -178,12 +207,14 @@ function Home() {
     //     navigate('/plan');
     //   }
     // })
-    // .catch((err) => { 
+    // .catch((err) => {
     //   console.log('err', err);
     // });
 
     // azure API
     const azureApiKey = '';
+    // log the prompt
+    console.log(azureFormData.messages[0].content);
     axios({
       url: "https://aigcopencommunity.openai.azure.com/openai/deployments/gpt_35_turbo/chat/completions?api-version=2023-05-15",
       method: "POST",
@@ -202,7 +233,7 @@ function Home() {
         }
       }
     })
-    .catch((err) => { 
+    .catch((err) => {
       setLoading(false);
       messageApi.open({
         type: 'error',
@@ -229,7 +260,7 @@ function Home() {
         <div className='main-wrapper'>
           <div className='title'>我想。。。</div>
           <div className='search-wrapper'>
-            <Input placeholder="请以顿号分隔" className='main-input' prefix={<SearchOutlined />} onChange={handleWants}/>
+            <Input id='inputBox' placeholder="请以顿号分隔" className='main-input' prefix={<SearchOutlined />} onChange={handleWants}/>
             <Button type="primary" className='confiim-button' onClick={clickConfirm}>确认</Button>
           </div>
           <div className='tag-list'>
