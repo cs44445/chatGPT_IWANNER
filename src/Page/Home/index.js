@@ -27,8 +27,8 @@ function Home() {
   const navigate = useNavigate();
   const [azureFormDataStore, setAzureFormDataStore] = useLocalStorage('azureFormDataStore', {});
   const [placeValue, setPlaceValue] = useState(azureFormDataStore.placeValue ?? '');
-  const [peopleNumber, setPeopleNumber] = useState(azureFormDataStore.peopleNumber ?? 0);
-  const [budget, setBudget] = useState(azureFormDataStore.budget ?? 0);
+  const [peopleNumber, setPeopleNumber] = useState(azureFormDataStore.peopleNumber ?? '');
+  const [budget, setBudget] = useState(azureFormDataStore.budget ?? '');
   const [startDate, setStartDate] = useState(azureFormDataStore.startDate ?? '');
   const [endDate, setEndDate] = useState(azureFormDataStore.endDate ?? '');
   const [wants, setWants] = useState(azureFormDataStore.wants ?? '');
@@ -196,7 +196,7 @@ const handleClick = (e) => {
         <div className='header-wrapper'>
           <Input placeholder="出发地" className='hader-input' prefix={<EnvironmentOutlined/>} onChange={handlePlaceValue} value={placeValue}/>
           <div className='header-time'>
-            <RangePicker className='header-time-range' locale={locale} onChange={handleDate} disabledDate={disabledDate} value={[dayjs(startDate),dayjs(endDate)]}/>
+            <RangePicker className='header-time-range' locale={locale} onChange={handleDate} disabledDate={disabledDate} value={(startDate && endDate) ? [dayjs(startDate), dayjs(endDate)] : undefined}/>
           </div>
           <Input placeholder="人数" className='hader-input' prefix={<UserOutlined />} onChange={handlePeopleNumber} value={peopleNumber}/>
           <Input placeholder="预算" className='hader-input' prefix={<PayCircleOutlined />} onChange={handleBudget} value={budget}/>
