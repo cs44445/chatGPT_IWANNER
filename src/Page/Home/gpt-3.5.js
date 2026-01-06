@@ -36,28 +36,41 @@ function Home() {
   const [errorStatus, setErrorStatus] = useState(azureFormDataStore.errorStatus ?? '');
   const [messageApi, contextHolder] = message.useMessage();
 
+  // const formData = {
   const azureFormData = {
-    // gpt-3.5-turbo model 官方已经deprecated
-    model: "gpt-4.1-mini",
-    input: `你是一名专业的旅行规划师。
-      参与的人数是${peopleNumber}个成人。
-      旅行从${startDate}开始，${endDate}结束。
-      我想从${placeValue}出发，进行国内旅行，
-      总预算约为人民币${budget}元。
-      在旅行期间，我希望${wants}。
-
-      请为我推荐一个目的地，并提供一份详尽的旅行计划，包括每天的行程地点和时间安排，和具体的酒店、航空公司和餐厅推荐，费用应在预算范围内。
-      计划应包括早餐、午餐和晚餐的地点。如果可能的话，请在同一家酒店住宿。
-
-      最后，请根据计划用markdown格式制作一张时间表并附在最后，
-      时间表需符合以下要求：
-      总共4列
-      第一列是日期
-      第二列是时间段
-      第三列是活动
-      第四列是预算`
+    "model": "gpt-3.5-turbo",
+    "messages": [
+      {
+        "role": "user", 
+        "content": `你是一名专业的旅行规划师。你在帮助我规划我的旅行。
+        参与的人数是${peopleNumber}个成人。
+        旅行从${startDate}开始，${endDate}结束。
+        我想从${placeValue}出发，进行国内旅行，
+        总预算约为人民币${budget}元。
+        在旅行期间，我希望${wants}。
+        \n\n请为我推荐一个目的地，并提供一份详尽的旅行计划，包括每天的行程地点和时间安排，和具体的酒店、航空公司和餐厅推荐，费用应在预算范围内。
+        计划应包括早餐、午餐和晚餐的地点。如果可能的话，请在同一家酒店住宿。
+        \n\n最后，请根据计划用markdown格式制作一张时间表并附在最后，
+        时间表需符合以下要求：\n\n总共4列\n第一列是日期\n第二列是时间段\n第三列是活动\n第四列是预算`
+      }
+    ]
   };
 
+  // const azureFormData = {
+  //   "messages": [
+  //     {
+  //       "role": "user",
+  //       "content": `你是一名专业的旅行规划师。你在帮助我规划我的旅行。
+  //           参与的人数是${peopleNumber}个成人。
+  //           旅行从${dayjs(startDate).format('YYYY年M月D日')}开始，${dayjs(endDate).format('YYYY年M月D日')}结束。
+  //           我想从${placeValue}出发，进行国内旅行，
+  //           总预算约为人民币${budget}元。
+  //           在旅行期间，我希望${wants}。
+  //           \n\n请为我推荐一个目的地，并提供一份详尽的旅行计划，包括每天的行程地点和时间安排，和具体的酒店、航空公司和餐厅推荐，费用应在预算范围内。
+  //           计划应包括早餐、午餐和晚餐的地点。如果可能的话，请在同一家酒店住宿。\n\n最后，请制作一张表格，需符合以下要求：\n总共4列\n第一列是日期\n第二列是时间段\n第三列是活动\n第四列是预算`
+  //     }
+  //   ]
+  // }
 
   const handlePlaceValue = (e) => {
     setPlaceValue(e.target.value);
@@ -88,7 +101,7 @@ function Home() {
   };
 
   const clickConfirm = () => {
-    console.log('azureFormData:', azureFormData.input);
+    console.log('azureFormData:', azureFormData.messages[0].content);
     if (!placeValue || !peopleNumber || !budget || !startDate || !endDate || !wants) {
       setErrorStatus('error');
       messageApi.open({
@@ -106,24 +119,27 @@ function Home() {
         wants,
       }
       setAzureFormDataStore(storeData);
-      // ⚠️ 请勿提交真实密钥到代码仓库（尤其是公开仓库），
-     // 否则可能触发安全告警，导致 Key 的 owner 收到通知并被要求重置，影响使用。
-      const defaultToken = '';
+      // const plusToken = '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';
+      // const defaultToken = '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';
+      const defaultToken = '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';
       axios({
-        url: "https://api.openai.com/v1/responses",
+        url: "https://api.openai.com/v1/chat/completions",
         method: "POST",
         headers: {
+          // authorization: `Bearer ${plusToken}`,
           authorization: `Bearer ${defaultToken}`,
         },
+        // data: formData,
         data: azureFormData,
       })
       .then((res) => {
         console.log('res', res);
         setLoading(false);
-        const outputText = res.data.output_text || res.data.output?.[0]?.content?.[0]?.text;
-        console.log('outputText', outputText);
-        localStorage.setItem("data", outputText);
-        navigate('/plan');
+        console.log('res.data.choices[0].message.content',res.data.choices[0].message.content);
+        if (res && res.data && res.data.choices && res.data.choices[0] && res.data.choices[0].message && res.data.choices[0].message.content) {
+          localStorage.setItem('data', res.data.choices[0].message.content);
+          navigate('/plan');
+        }
       })
       .catch((err) => { 
         setLoading(false);
